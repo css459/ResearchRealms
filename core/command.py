@@ -6,7 +6,6 @@
 
 
 def test(s):
-    print(s)
     return str(s)
 
 
@@ -18,7 +17,7 @@ commands = {
 }
 
 
-def _exception_wrapper(fn, **kwargs):
+def _exception_wrapper(fn, *args):
     """
     Captures all exceptions from a provided
     function with arguments and returns either
@@ -30,12 +29,12 @@ def _exception_wrapper(fn, **kwargs):
     :return:        Function output or string
     """
     try:
-        return fn(**kwargs)
+        return fn(*args)
     except Exception as e:
         return str(e)
 
 
-def run_command(cmd_str, **kwargs):
+def run_command(cmd_str, *args):
     """
     All commands are called using an identifier string
     from the `commands` dictionary. The arguments are then
@@ -46,11 +45,11 @@ def run_command(cmd_str, **kwargs):
     :return:            Function output or string
     """
     # Sanity checks for insane input
-    if len(cmd_str) > 100 or len(kwargs) > 100:
+    if len(cmd_str) > 100 or len(args) > 100:
         return
 
     if cmd_str not in commands:
         return 'ERROR: ' + cmd_str + ' is not a valid command!'
 
     cmd = commands[str(cmd_str)]
-    return _exception_wrapper(cmd, **kwargs)
+    return _exception_wrapper(cmd, *args)

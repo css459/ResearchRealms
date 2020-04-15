@@ -4,6 +4,8 @@ import re
 
 from discord.ext import commands
 
+from core.command import run_command
+
 TOKEN = os.getenv('TOKEN')
 bot = commands.Bot(command_prefix='!')
 
@@ -23,7 +25,8 @@ def _get_message(ctx):
 @bot.command(name='echo', help='Tests the bot by echoing back what is said')
 async def bot_echo(ctx):
     msg = _get_message(ctx)
-    await ctx.send(msg)
+    out = run_command('test', msg)
+    await ctx.send(out)
 
 
 bot.run(str(TOKEN))
