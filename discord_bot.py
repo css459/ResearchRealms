@@ -24,8 +24,14 @@ def _get_message(ctx):
 
 @bot.command(name='echo', help='Tests the bot by echoing back what is said')
 async def bot_echo(ctx):
+    # Get the message content, given we already know the command
     msg = _get_message(ctx)
+
+    # Execute the required command using the `run_command` function
     out = run_command('test', msg)
+
+    # `run_command` will return a single value which is passed back to
+    # the user
     await ctx.send(out)
 
 
