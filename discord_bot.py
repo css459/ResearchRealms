@@ -90,4 +90,11 @@ async def bot_chart(ctx):
     await format_message_output_and_send(out, ctx)
 
 
+@bot.command(name='exec', help='Execute Code')
+async def exec_code(ctx):
+    msg = _get_message(ctx)
+    out = run_command('exec', msg)
+    await format_message_output_and_send(out, ctx)
+
+
 bot.run(str(TOKEN))

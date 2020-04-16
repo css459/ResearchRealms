@@ -1,5 +1,8 @@
 import os
+import re
+import sys
 import traceback
+from io import StringIO
 from multiprocessing import Queue, Process
 
 # Multiprocessing Constants
@@ -10,6 +13,19 @@ MULTIPROCESS_NICE_INCREMENT = 10
 
 def test(s):
     return str(s)
+
+
+def exec_str(s):
+    # Remove formatting from code
+    s = re.sub(r'```\w*', '', s)
+
+    # Redirect STDOUT
+    old_stdout = sys.stdout
+    redirected_output = sys.stdout = StringIO()
+    exec(s)
+    sys.stdout = old_stdout
+
+    return redirected_output.getvalue()
 
 
 def test_img(s):
@@ -43,7 +59,8 @@ Other options will be ignored.
 """
 commands = {
     'test': test,
-    'testimg': test_img
+    'testimg': test_img,
+    'exec': exec_str
 }
 
 
