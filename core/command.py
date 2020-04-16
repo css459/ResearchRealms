@@ -12,12 +12,38 @@ def test(s):
     return str(s)
 
 
+def test_img(s):
+    import io
+    import matplotlib.pyplot as plt
+
+    plt.figure()
+    plt.plot([1, 2])
+    plt.title("test")
+    buf = io.BytesIO()
+    plt.savefig(buf, format='png')
+    buf.seek(0)
+    if s == 'notext':
+        return {'img': buf}
+    return {'txt': 'Look at this graph. You said: ' + s, 'img': buf}
+
+
 # TODO: These can be AWS Lambda calls or typical python calls
 """
-Valid commands with their corresponding function
+Valid commands with their corresponding function.
+
+Valid outputs consist of either a string (or variable
+that can be cast to a string) or a dictionary using one
+or more of the following options:
+{
+    'txt': String,
+    'img': BytesIO representing PNG image
+}
+
+Other options will be ignored.
 """
 commands = {
-    'test': test
+    'test': test,
+    'testimg': test_img
 }
 
 
