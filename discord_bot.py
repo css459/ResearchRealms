@@ -24,6 +24,22 @@ def _get_message(ctx):
     return re.sub(re.compile(regex), '', m, 1).strip()
 
 
+def _get_attachment(ctx):
+    """
+    Gets the FIRST attachment of a message and returns
+    the URL to find it at, with the original file name.
+
+    :param ctx: Discord Context of command message
+    :return:    Original File Name, File URL
+    """
+    if len(ctx.message.attachments) < 1:
+        return None, None
+
+    file_name = ctx.message.attachments[0].filename
+    file_url = ctx.message.attachments[0].url
+    return [file_name, file_url]
+
+
 async def format_message_output_and_send(o, ctx):
     """
     Extracts and formats the command output
@@ -51,6 +67,10 @@ async def format_message_output_and_send(o, ctx):
                 img_bytes = o['img']
                 await ctx.send(file=discord.File(img_bytes, 'attachment.png'))
 
+            if 'code' in o:
+                code = "```python\n" + str(o['code']) + "```"
+                await ctx.send(code)
+
         except KeyError as e:
             error_str = "COMMAND EXCEPTION: Unrecognized command output.\n" + \
                         'EXCEPTION: ' + str(e)
@@ -70,20 +90,7 @@ async def bot_echo(ctx):
     msg = _get_message(ctx)
 
     # Execute the required command using the `run_command` function
-    out = run_command('test', msg)
-
-    # `run_command` will return a single value which is passed back to
-    # the user
-    await format_message_output_and_send(out, ctx)
-
-
-@bot.command(name='chart', help='Tests the bot by providing an example image')
-async def bot_chart(ctx):
-    # Get the message content, given we already know the command
-    msg = _get_message(ctx)
-
-    # Execute the required command using the `run_command` function
-    out = run_command('testimg', msg)
+    out = run_command('test', None, None, msg)
 
     # `run_command` will return a single value which is passed back to
     # the user
@@ -93,7 +100,8 @@ async def bot_chart(ctx):
 @bot.command(name='exec', help='Execute Code')
 async def exec_code(ctx):
     msg = _get_message(ctx)
-    out = run_command('exec', msg)
+    [att_name, att_url] = _get_attachment(ctx)
+    out = run_command('exec', att_name, att_url, msg)
     await format_message_output_and_send(out, ctx)
 
 

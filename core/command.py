@@ -1,49 +1,17 @@
 import os
-import re
-import sys
+import tempfile
 import traceback
-from io import StringIO
 from multiprocessing import Queue, Process
 
+import requests
+
+from core.executor import exec_str
+
 # Multiprocessing Constants
-MULTIPROCESS_TIMEOUT_SECONDS = 2.0
+MULTIPROCESS_TIMEOUT_SECONDS = 30.0
 MULTIPROCESS_MAX_HEAP_MB = 2000.0
 MULTIPROCESS_NICE_INCREMENT = 10
 
-
-def test(s):
-    return str(s)
-
-
-def exec_str(s):
-    # Remove formatting from code
-    s = re.sub(r'```\w*', '', s)
-
-    # Redirect STDOUT
-    old_stdout = sys.stdout
-    redirected_output = sys.stdout = StringIO()
-    exec(s)
-    sys.stdout = old_stdout
-
-    return redirected_output.getvalue()
-
-
-def test_img(s):
-    import io
-    import matplotlib.pyplot as plt
-
-    plt.figure()
-    plt.plot([1, 2])
-    plt.title("test")
-    buf = io.BytesIO()
-    plt.savefig(buf, format='png')
-    buf.seek(0)
-    if s == 'notext':
-        return {'img': buf}
-    return {'txt': 'Look at this graph. You said: ' + s, 'img': buf}
-
-
-# TODO: These can be AWS Lambda calls or typical python calls
 """
 Valid commands with their corresponding function.
 
@@ -51,15 +19,15 @@ Valid outputs consist of either a string (or variable
 that can be cast to a string) or a dictionary using one
 or more of the following options:
 {
-    'txt': String,
-    'img': BytesIO representing PNG image
+    'txt':  String (Will be displayed as normal text),
+    'img':  BytesIO representing PNG image,
+    'code': String (Will be displayed in a code block)
 }
 
 Other options will be ignored.
 """
 commands = {
-    'test': test,
-    'testimg': test_img,
+    'test': lambda x: x,
     'exec': exec_str
 }
 
@@ -134,13 +102,15 @@ def _process_wrapper(fn, *args):
     return out
 
 
-def run_command(cmd_str, *args):
+def run_command(cmd_str, att_name, att_url, *args):
     """
     All commands are called using an identifier string
     from the `commands` dictionary. The arguments are then
     passed to the corresponding function.
 
     :param cmd_str:   A valid key from `commands`
+    :param att_name:  File name of an attachment or `None`
+    :param att_url:   URL to to attachment or `None`
     :param args:      Arguments for function
     :return:          Function output or string
     """
@@ -152,4 +122,20 @@ def run_command(cmd_str, *args):
         return 'ERROR: ' + cmd_str + ' is not a valid command!'
 
     cmd = commands[str(cmd_str)]
-    return _process_wrapper(cmd, *args)
+
+    # Give and enter unique tmp directory for proc
+    prev_path = os.getcwd()
+    with tempfile.TemporaryDirectory() as tmp_path:
+        os.chdir(tmp_path)
+
+        # If the attachment was passed, download it
+        # to the environment
+        if att_name is not None and att_url is not None:
+            r = requests.get(att_url)
+            with open(att_name, 'wb') as fp:
+                fp.write(r.content)
+
+        out = _process_wrapper(cmd, *args)
+        os.chdir(prev_path)
+
+    return out
