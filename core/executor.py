@@ -18,7 +18,7 @@ If the python script writes to this file,
 it will be delivered along with the output
 of the program to the user.
 """
-MATPLOTLIB_OUTPUT_FILE = 'rr-plt-out.png'
+MATPLOTLIB_OUTPUT_FILE = 'rr-out.png'
 
 
 def _forbidden_packages_preamble():
