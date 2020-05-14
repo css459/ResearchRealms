@@ -3,6 +3,20 @@ A Slack and Discord Bot for Quantitative Research in Python
 
 [Add this bot to your discord server!](https://discordapp.com/api/oauth2/authorize?client_id=700004199844282369&permissions=593024&scope=bot)
 
+# Introduction
+
+**ResearchRealms** is a Python program and execution envrionment for running arbitrary code. Its purpose is to be extensible, and easy to run your own instance. ResearchRealms is made to run on cloud machines with high-replication in mind. Each quantum of computation in ResearchRealms is natually parallel and containerized using our `command` framework.
+
+The `command` framework is what makes ResearchRealms unique. It is self-bootstrapping: While this framework supports running arbitrary code from Slack and Discord, it is also used to *execute our built-in commands*. It is containerized: In this way, we are able to *share the same environment* that ResearchRealms uses to run, to also run arbitrary code. 
+
+# Setup
+
+## Discord
+For most users, clicking the link in the top of this document and choosing the target server should be sufficient. **It is possible to run your own node** by running the `discord_bot.py` python file. You are free to modify this file, and create your bot on top of this framework.
+
+## Slack
+TODO
+
 # Commands 
 
 ## `!exec`
