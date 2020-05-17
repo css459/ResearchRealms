@@ -10,6 +10,9 @@ A list of packages that are not allowed in
 the Python execution environment. `sys` is
 implicit in this list and will always be
 forbidden.
+
+WARNING: IF YOU ALLOW `os` IT IS POSSIBLE
+TO OBTAIN THE BOT KEY FROM ARBITRARY CODE.
 """
 FORBIDDEN_PACKAGES = ['urllib', 'os']
 
