@@ -110,4 +110,5 @@ async def render_latex(ctx):
     out = run_command('latex', None, None, msg)
     await format_message_output_and_send(out, ctx)
 
+
 bot.run(str(TOKEN))
