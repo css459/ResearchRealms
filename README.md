@@ -49,8 +49,8 @@ to the user.
     plt.title("test")
     plt.show()
     ```
-Formatting ticks \`\`\` will be removed automically, but there should be at least a space between
-them and the code. `exec` will devlier back to your channel the **standard output** of the program.
+Formatting ticks \`\`\` will be removed automatically, but there should be at least a space between
+them and the code. `exec` will deliver back to your channel the **standard output** of the program.
 
 ### Attachments
 
@@ -81,3 +81,13 @@ since `sys` itself is used to forebid packages.
 
 **Programs have a maximum execution time of 30 seconds.** 
 
+## `!latex`
+
+The `latex` command allows you and your colleagues to render `LaTeX` equations directly from the chat. The command
+expects input in the same format at LaTeX math mode. The command will deliver back the rendered version of the equation
+inputted
+
+### Formatting
+
+    !latex
+    `$\int_{y} e^{-\beta F(y,x)}$`

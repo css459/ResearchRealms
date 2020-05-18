@@ -1,14 +1,13 @@
 # Executable for Discord Interface
-import os
 import re
 
 import discord
 from discord.ext import commands
 
 from core.command import run_command
+from util.config import TOKEN
 
 MAX_MSG_LENGTH_CHARACTERS = 2000
-TOKEN = os.getenv('TOKEN')
 bot = commands.Bot(command_prefix='!')
 
 
@@ -104,5 +103,11 @@ async def exec_code(ctx):
     out = run_command('exec', att_name, att_url, msg)
     await format_message_output_and_send(out, ctx)
 
+
+@bot.command(name='latex', help='Render LaTeX')
+async def render_latex(ctx):
+    msg = _get_message(ctx)
+    out = run_command('latex', None, None, msg)
+    await format_message_output_and_send(out, ctx)
 
 bot.run(str(TOKEN))

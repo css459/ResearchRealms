@@ -2,3 +2,4 @@ discord.py
 pillow
 matplotlib
 requests
+python-dotenv

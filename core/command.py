@@ -6,6 +6,7 @@ from multiprocessing import Queue, Process
 import requests
 
 from core.executor import exec_str
+from core.latex import render_latex
 
 # Multiprocessing Constants
 MULTIPROCESS_TIMEOUT_SECONDS = 30.0
@@ -28,7 +29,8 @@ Other options will be ignored.
 """
 commands = {
     'test': lambda x: x,
-    'exec': exec_str
+    'exec': exec_str,
+    'latex': render_latex,
 }
 
 
