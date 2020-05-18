@@ -11,9 +11,11 @@ Given the extraordinary circumstances that many academics and researchers are no
 
 # Introduction
 
-**ResearchRealms** is a Python program and execution envrionment for running arbitrary code. Its purpose is to be extensible, and easy to run your own instance. ResearchRealms is made to run on cloud machines with high-replication in mind. Each quantum of computation in ResearchRealms is natually parallel and containerized using our `command` framework.
+**ResearchRealms** is a Python program and execution environment for running arbitrary code. Its purpose is to be extensible, and easy to run your own instance. ResearchRealms is made to run on cloud machines with high-replication in mind. Each quantum of computation in ResearchRealms is naturally parallel and containerized using our `command` framework.
 
 The `command` framework is what makes ResearchRealms unique. It is self-bootstrapping: While this framework supports running arbitrary code from Slack and Discord, it is also used to *execute our built-in commands*. It is containerized: In this way, we are able to *share the same environment* that ResearchRealms uses to run, to also run arbitrary code.
+
+![Example Message](doc/example-message.png)
 
 # Cross-Cutting Aspects
 
@@ -24,9 +26,9 @@ All of our design documents can be found under the `doc/` directory of this repo
 * Requirements Documentation
 * Use-Case Documentation
 
-We desgined this project by first documenting the functional requirements, and then expanding upon those by defining the non-fuctional requirements. This is documented in the **Requirements Documentation**. Moreover, we define some key use-cases (documented in the **Use-Case Documentation**) and implemented the core use-case: Executing arbitrary Python code. Once we knew how our application needed to perform, we worked on designing an architecture and how to implement it. This is documented in the **UML Architecture**.
+We designed this project by first documenting the functional requirements, and then expanding upon those by defining the non-functional requirements. This is documented in the **Requirements Documentation**. Moreover, we define some key use-cases (documented in the **Use-Case Documentation**) and implemented the core use-case: Executing arbitrary Python code. Once we knew how our application needed to perform, we worked on designing an architecture and how to implement it. This is documented in the **UML Architecture**.
 
-Finally, we thought about how this application fits into the overall objectives of a business. This was an interesting exercise for us, because our application isn't necessarily geared towards business needs, but rather academic needs. Moreoever, the P2P nature of the application isn't as monolithic as most business applications. Nonetheless, we attemped to frame the application within a business scenario, and outlined that context in the **Business Model Canvas**.
+Finally, we thought about how this application fits into the overall objectives of a business. This was an interesting exercise for us, because our application isn't necessarily geared towards business needs, but rather academic needs. Moreoever, the P2P nature of the application isn't as monolithic as most business applications. Nonetheless, we attempted to frame the application within a business scenario, and outlined that context in the **Business Model Canvas**.
 
 # Setup
 
@@ -83,7 +85,7 @@ The following python modules are blacklisted within the sandbox:
 * `requests`
 
 These can be configured to be whatever you want, except `sys` is always **implicitly forbidden**,
-since `sys` itself is used to forebid packages.
+since `sys` itself is used to forbid packages.
 
 **Programs have a maximum execution time of 30 seconds.** 
 
