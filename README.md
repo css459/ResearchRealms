@@ -3,6 +3,12 @@ A Slack and Discord Bot for Quantitative Research in Python
 
 [Add this bot to your discord server!](https://discordapp.com/api/oauth2/authorize?client_id=700004199844282369&permissions=593024&scope=bot)
 
+# Abstract
+
+Given the extraordinary circumstances that many academics and researchers are now facing in early 2020, many of us are constrained to collaborate with our colleagues from our own homes. Somewhat ironically, there are few easy-to-use tools which allow researchers from mathematical backgrounds to share quick ideas efficiently. Many people across fields use apps like Discord or Slack to work remotely. However, these apps lack critical features for technical users like code formatting, or LaTeX support.
+
+ We aim to fix this by offering a Discord (and or Slack) Bot which offers proper LaTeX formatting, Python Code snippet execution and formatting, and the ability to search for other researchers in public (yet academic) servers by their titles or fields. In this way, we also aim to develop a community in which researchers can collaborate easily across domains, with fewer barriers between different research departments.
+
 # Introduction
 
 **ResearchRealms** is a Python program and execution envrionment for running arbitrary code. Its purpose is to be extensible, and easy to run your own instance. ResearchRealms is made to run on cloud machines with high-replication in mind. Each quantum of computation in ResearchRealms is natually parallel and containerized using our `command` framework.
