@@ -76,7 +76,7 @@ The following python modules are blacklisted within the sandbox:
 * `urllib`
 * `requests`
 
-These can be conifgured to be whatever you want, except `sys` is always **implicitly forbidden**,
+These can be configured to be whatever you want, except `sys` is always **implicitly forbidden**,
 since `sys` itself is used to forebid packages.
 
 **Programs have a maximum execution time of 30 seconds.** 
@@ -90,4 +90,9 @@ inputted
 ### Formatting
 
     !latex
-    `$\int_{y} e^{-\beta F(y,x)}$`
+    $\int_{y'} e^{-\beta F(y',x)}$
+    
+### Rendered Example 
+
+<img src="doc/example-latex.png" height="200px">
+
