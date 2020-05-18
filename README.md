@@ -15,7 +15,7 @@ Given the extraordinary circumstances that many academics and researchers are no
 
 The `command` framework is what makes ResearchRealms unique. It is self-bootstrapping: While this framework supports running arbitrary code from Slack and Discord, it is also used to *execute our built-in commands*. It is containerized: In this way, we are able to *share the same environment* that ResearchRealms uses to run, to also run arbitrary code.
 
-![Example Message](doc/example-message.png)
+![Example Message](doc/example-msg.png)
 
 # Cross-Cutting Aspects
 
@@ -38,7 +38,7 @@ For most users, clicking the link in the top of this document and choosing the t
 ## Slack
 TODO
 
-# Commands 
+# Commands
 
 ## `!exec`
 
@@ -87,7 +87,7 @@ The following python modules are blacklisted within the sandbox:
 These can be configured to be whatever you want, except `sys` is always **implicitly forbidden**,
 since `sys` itself is used to forbid packages.
 
-**Programs have a maximum execution time of 30 seconds.** 
+**Programs have a maximum execution time of 30 seconds.**
 
 ## `!latex`
 
@@ -99,8 +99,8 @@ inputted
 
     !latex
     $\int_{y'} e^{-\beta F(y',x)}$
-    
-### Rendered Example 
+
+### Rendered Example
 
 <img src="doc/example-latex.png" height="200px">
 
