@@ -17,6 +17,13 @@ TO OBTAIN THE BOT KEY FROM ARBITRARY CODE.
 FORBIDDEN_PACKAGES = ['urllib', 'os', 'requests']
 
 """
+Of the packages listed in requirements.txt, these
+packages are allowed to import restricted packages
+so that they may be used.
+"""
+ALLOWED_PACKAGES = ['matplotlib', 'pandas', 'numpy']
+
+"""
 If the python script writes to this file,
 it will be delivered along with the output
 of the program to the user.
@@ -39,12 +46,12 @@ def _forbidden_packages_preamble():
 
     # Read the modules that are imported as part of requirements.txt
     # These modules will have the privilege to import forbidden packages
-    req_packages = []
-    with open('requirements.txt', 'r') as fp:
-        for line in fp:
-            req_packages.append(line.split('[')[0])
+    # req_packages = []
+    # with open('requirements.txt', 'r') as fp:
+    #     for line in fp:
+    #         req_packages.append(line.split('[')[0])
 
-    req_packages = list_to_string(req_packages)
+    req_packages = list_to_string(ALLOWED_PACKAGES)
     forbidden = list_to_string(FORBIDDEN_PACKAGES)
     print('REQ PACKAGES: ', req_packages)
     print('FORBIDDEN', forbidden)
