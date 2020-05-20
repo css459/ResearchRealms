@@ -3,6 +3,20 @@ A Slack and Discord Bot for Quantitative Research in Python
 
 [Add this bot to your discord server!](https://discordapp.com/api/oauth2/authorize?client_id=700004199844282369&permissions=593024&scope=bot)
 
+# Table of Contents
+
+## Documentation
+* Report: This document
+* Presentation: `doc/showcase.pdf`
+* Requirements Analysis: `doc/req`
+* Business Model Canvas: `doc/bmc`
+* Use Case Documentation: `doc/use`
+* UML: `doc/uml`
+
+## Source Code
+* Core framework: `core/`
+* Discord Wrapper: `discord_bot.py`
+
 # Abstract
 
 Given the extraordinary circumstances that many academics and researchers are now facing in early 2020, 
