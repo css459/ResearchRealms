@@ -42,7 +42,7 @@ While this framework supports running arbitrary code from Slack and Discord, it 
 *execute our built-in commands*. It is containerized: In this way, we are able to *share the same environment* 
 that ResearchRealms uses to run, to also run arbitrary code.
 
-![Example Message](doc/example-msg.png)
+![Example Message](doc/img/example-msg.png)
 
 # Cross-Cutting Aspects
 
@@ -67,9 +67,18 @@ Nonetheless, we attempted to frame the application within a business scenario, a
 
 # Development
 
-We used an agile process for developing this software. Features were laid out after the project was given the green-light, and we then met together to turn those features into functional and non-functional requirements. In the design phase, we laid out a UML diagram of how those features would interact. Then it was a matter of implementing the UML. We divided the parts evenly such that we could work in parallel for most of the project.
+We used an agile process for developing this software. Features were laid out after the project was given 
+the green-light, and we then met together to turn those features into functional and non-functional requirements. 
+In the design phase, we laid out a UML diagram of how those features would interact. Then it was a matter of 
+implementing the UML. We divided the parts evenly such that we could work in parallel for most of the project.
 
-An interesting part of the development cycle was in the **Latex parser**, where we decided to reuse as much code as possible, and implement it as a **special Python program delivered to the `exec` routine**. This `exec` routine we developed is to execute arbitrary Python code. For this reason, we can actually leverage it to **implement many other commands**. This in turn allows us to re-use the most amount of code possible.
+An interesting part of the development cycle was in the **Latex parser**, where we decided to reuse as much code 
+as possible, and implement it as a **special Python program delivered to the `exec` routine**. This `exec` routine
+we developed is to execute arbitrary Python code. For this reason, we can actually leverage it to **implement many 
+other commands**. This in turn allows us to re-use the most amount of code possible. Below, you can find a high-level
+diagram on how the Executor (which implements `exec`) works.
+
+![exec](doc/img/exec.png)
 
 # Testing
 
@@ -246,5 +255,5 @@ inputted
 
 ### Rendered Example
 
-<img src="doc/example-latex.png" height="200px">
+<img src="doc/img/example-latex.png" height="200px">
 
