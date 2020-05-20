@@ -21,7 +21,7 @@ Of the packages listed in requirements.txt, these
 packages are allowed to import restricted packages
 so that they may be used.
 """
-ALLOWED_PACKAGES = ['matplotlib', 'pandas', 'numpy']
+ALLOWED_PACKAGES = ['matplotlib', 'numpy', 'pandas']
 
 """
 If the python script writes to this file,
@@ -41,46 +41,58 @@ def _forbidden_packages_preamble():
     if not FORBIDDEN_PACKAGES:
         return ""
 
-    def list_to_string(li):
-        return '[' + ','.join(li) + ']'
-
-    # Read the modules that are imported as part of requirements.txt
-    # These modules will have the privilege to import forbidden packages
-    # req_packages = []
-    # with open('requirements.txt', 'r') as fp:
-    #     for line in fp:
-    #         req_packages.append(line.split('[')[0])
-
-    req_packages = list_to_string(ALLOWED_PACKAGES)
-    forbidden = list_to_string(FORBIDDEN_PACKAGES)
-    print('REQ PACKAGES: ', req_packages)
-    print('FORBIDDEN', forbidden)
-
-    secure_importer = 'req = ' + req_packages + '; fb = ' + forbidden + '\n'
-
-    secure_importer += '''
-import importlib
-
-def secure_importer(name, globals=None, locals=None, fromlist=(), level=0):
-    frommodule = globals['__name__'] if globals else None
-    if name in fb and frommodule not in req:
-        raise ImportError("module '%s' is restricted."%name)
-
-    return importlib.__import__(name, globals, locals, fromlist, level)
-
-__builtins__.__dict__['__import__'] = secure_importer
-
-    '''
-
-    # s = 'import sys; '
-    # for f in FORBIDDEN_PACKAGES:
-    #     s += 'sys.modules[\'' + f + '\'] = None; '
+    #     def list_to_string(li):
+    #         li = ['\'' + o + '\'' for o in li]
+    #         return '[' + ','.join(li) + ']'
     #
-    # s += 'sys.modules[\'sys\'] = None;'
+    #     # Read the modules that are imported as part of requirements.txt
+    #     # These modules will have the privilege to import forbidden packages
+    #     # req_packages = []
+    #     # with open('requirements.txt', 'r') as fp:
+    #     #     for line in fp:
+    #     #         req_packages.append(line.split('[')[0])
+    #
+    #     req_packages = list_to_string(ALLOWED_PACKAGES)
+    #     forbidden = list_to_string(FORBIDDEN_PACKAGES)
+    #     print('REQ PACKAGES: ', req_packages)
+    #     print('FORBIDDEN', forbidden)
+    #
+    #     secure_importer = 'req = ' + req_packages + '; fb = ' + forbidden + '\n'
+    #
+    #     secure_importer += '''
+    # import importlib
+    #
+    # def secure_importer(name, globals=None, locals=None, fromlist=(), level=0):
+    #     frommodule = globals['__name__'] if globals else None
+    #     if name in fb and frommodule not in req:
+    #         raise ImportError("module '%s' is restricted."%name)
+    #
+    #     return importlib.__import__(name, globals, locals, fromlist, level)
+    #
+    # __builtins__.__dict__['__import__'] = secure_importer
+    #
+    #     '''
 
-    print(secure_importer)
+    s = 'import sys; '
+    for f in FORBIDDEN_PACKAGES:
+        s += 'sys.modules[\'' + f + '\'] = None; '
 
-    return secure_importer + '\n'
+    s += 'sys.modules[\'sys\'] = None;'
+
+    return s + '\n'
+
+
+def _extract_allowed_packages(s):
+    """
+    Finds all import statements that contain
+    allowed packages and forms them into a string.
+    :param s: A valid Python script as text
+    :return:  The allowed import statements as one line
+    """
+    imports = [line for line in s if 'import' in line and
+               any(key in ALLOWED_PACKAGES for key in line.replace('.', ' ').split())]
+
+    return '; '.join(imports) + '\n'
 
 
 def _detect_matplotlib(s):
@@ -135,11 +147,19 @@ def exec_str(s):
     # Remove formatting from code
     s = re.sub(r'```\w*', '', s)
 
+    # Extract allowed packages
+    allowed_pkgs = _extract_allowed_packages(s)
+
+    for a in allowed_pkgs:
+        s = s.replace(a, '')
+
     # Forbid certain packages
-    s = _forbidden_packages_preamble() + s
+    s = allowed_pkgs + _forbidden_packages_preamble() + s
 
     # Detect matplotlib
     s = _detect_matplotlib(s)
+
+    print(s)
 
     # Redirect STDOUT
     old_stdout = sys.stdout
