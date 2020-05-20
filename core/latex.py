@@ -1,6 +1,7 @@
 # Latex formatting functions. Should render latex to an image
 # or return an error
 import re
+
 from .executor import _check_matplotlib_output, MATPLOTLIB_OUTPUT_FILE
 
 FONT_SIZE = 25
@@ -16,6 +17,8 @@ def preprocess_latex(equation):
 
 
 def stringify(string):
+    # Matplotlib expects only single $
+    string = str(string).replace('$$', '$')
     return f'\'{string}\''
 
 

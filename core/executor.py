@@ -14,7 +14,7 @@ forbidden.
 WARNING: IF YOU ALLOW `os` IT IS POSSIBLE
 TO OBTAIN THE BOT KEY FROM ARBITRARY CODE.
 """
-FORBIDDEN_PACKAGES = ['urllib', 'os']
+FORBIDDEN_PACKAGES = ['urllib', 'os', 'requests']
 
 """
 If the python script writes to this file,
@@ -95,7 +95,7 @@ def exec_str(s):
     s = re.sub(r'```\w*', '', s)
 
     # Forbid certain packages
-    # s = _forbidden_packages_preamble() + s
+    s = _forbidden_packages_preamble() + s
 
     # Detect matplotlib
     s = _detect_matplotlib(s)
