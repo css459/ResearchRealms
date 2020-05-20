@@ -163,6 +163,62 @@ since `sys` itself is used to forbid packages.
 
 **Programs have a maximum execution time of 30 seconds.**
 
+<hr>
+
+## `!save`, `!snippets`, `!snippet`
+
+The `save`, `snippet`, and `snippets` commands allow you and your colleagues to conviniently save and retrieve code snippets via the RR client connection to a dedicated MongoDB database instance.
+
+### `!save <snippet>`
+
+This command follows the format of the `exec` command and expects a code snippet formatted as a multi-line string. The command parses the input snippet and saves is to the database, returning an `id` for the snippet that has just been saved in the DB.
+
+#### Formatting
+
+    !save 
+    ```
+    import torch
+    import torchvision
+    from torch import nn
+    ```
+
+#### Example Output
+
+> Saved snippet with `id = 5ec59202abf72db4509f7c8b` <br/><br/> To list saved snippets, try `!snippets` <br/> To retrieve specific snippet, try `!snippet <id>`
+
+
+### `!snippet <id>`
+
+This command allows you to retrieve a specific snippet via a snippet `id` that you can get from the output when saving the snippet, or alternatively from running the `!snippets` command and getting the full list of saved snippets. The command returns a formatted string and displays it in the chat.
+
+#### Formatting
+
+    !snippet 5ec59202abf72db4509f7c8b
+
+#### Example Output
+
+> Retrieved snippet with id = 5ec59202abf72db4509f7c8b
+```python
+import torch
+import torchvision
+from torch import nn
+```
+
+
+### `!snippets`
+
+This command allows you to get back a list of snippets (identified and stored via `id`) that have been stored by you and are available to retrieve and potentially re-run via the `!exec` command. This command may be useful for examining the snippets that have been stored and getting a particular `id` that can then be used with the `!snippet <id>` command to return the code text associated with a specific saved snippet.
+
+#### Formatting
+
+    !snippets
+
+#### Example Output
+
+> Found snippets: <br/><br/> `id = 5ec55d2d3f955369e3e98cc1` <br/> `id = 5ec55d8c20472e1b932d7fe6` <br/> `id = 5ec56081e584857caa1f9adc` <br/><br/> To retrieve specific snippet, try `!snippet <id>`
+
+<hr>
+
 ## `!latex`
 
 The `latex` command allows you and your colleagues to render `LaTeX` equations directly from the chat. The command
