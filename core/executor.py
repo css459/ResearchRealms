@@ -42,6 +42,7 @@ def _forbidden_packages_preamble():
         return ""
 
     def list_to_string(li):
+        li = ['\'' + o + '\'' for o in li]
         return '[' + ','.join(li) + ']'
 
     # Read the modules that are imported as part of requirements.txt
