@@ -33,13 +33,47 @@ def _forbidden_packages_preamble():
     """
     if not FORBIDDEN_PACKAGES:
         return ""
-    s = 'import sys; '
-    for f in FORBIDDEN_PACKAGES:
-        s += 'sys.modules[\'' + f + '\'] = None; '
 
-    s += 'sys.modules[\'sys\'] = None;'
+    def list_to_string(li):
+        return '[' + ','.join(li) + ']'
 
-    return s + '\n'
+    # Read the modules that are imported as part of requirements.txt
+    # These modules will have the privilege to import forbidden packages
+    req_packages = []
+    with open('requirements.txt', 'r') as fp:
+        for line in fp:
+            req_packages.append(line.split('[')[0])
+
+    req_packages = list_to_string(req_packages)
+    forbidden = list_to_string(FORBIDDEN_PACKAGES)
+    print('REQ PACKAGES: ', req_packages)
+    print('FORBIDDEN', forbidden)
+
+    secure_importer = 'req = ' + req_packages + '; fb = ' + forbidden + '\n'
+
+    secure_importer += '''
+import importlib
+
+def secure_importer(name, globals=None, locals=None, fromlist=(), level=0):
+    frommodule = globals['__name__'] if globals else None
+    if name in fb and frommodule not in req:
+        raise ImportError("module '%s' is restricted."%name)
+
+    return importlib.__import__(name, globals, locals, fromlist, level)
+
+__builtins__.__dict__['__import__'] = secure_importer
+
+    '''
+
+    # s = 'import sys; '
+    # for f in FORBIDDEN_PACKAGES:
+    #     s += 'sys.modules[\'' + f + '\'] = None; '
+    #
+    # s += 'sys.modules[\'sys\'] = None;'
+
+    print(secure_importer)
+
+    return secure_importer + '\n'
 
 
 def _detect_matplotlib(s):
