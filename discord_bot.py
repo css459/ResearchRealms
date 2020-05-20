@@ -4,11 +4,14 @@ import re
 import discord
 from discord.ext import commands
 
+from db import DBClient
+
 from core.command import run_command
 from util.config import TOKEN
 
 MAX_MSG_LENGTH_CHARACTERS = 2000
 bot = commands.Bot(command_prefix='!')
+client = DBClient()
 
 
 def _get_message(ctx):
@@ -108,6 +111,31 @@ async def exec_code(ctx):
 async def render_latex(ctx):
     msg = _get_message(ctx)
     out = run_command('latex', None, None, msg)
+    await format_message_output_and_send(out, ctx)
+
+
+@bot.command(name='save', help='Save Code Snippet')
+async def snippet_save(ctx):
+    snippet_code = _get_message(ctx)
+    author = str(ctx.author)
+    out = client.save_snippet(author, code=snippet_code, snippet_name=None)
+
+    await format_message_output_and_send(out, ctx)
+
+
+@bot.command(name='snippets', help='List Code Snippets')
+async def snippets_list(ctx):
+    author = str(ctx.author)
+    out = client.find_snippets(author)
+
+    await format_message_output_and_send(out, ctx)
+
+
+@bot.command(name='snippet', help='Retrieve Code Snippet')
+async def snippet_show(ctx, snippet_id):
+    author = str(ctx.author)
+    out = client.find_snippet(author, snippet_id)
+
     await format_message_output_and_send(out, ctx)
 
 bot.run(str(TOKEN))
