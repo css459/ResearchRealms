@@ -51,6 +51,22 @@ academic needs. Moreover, the P2P nature of the application isn't as monolithic 
 Nonetheless, we attempted to frame the application within a business scenario, and outlined that context in the 
 **Business Model Canvas**.
 
+# Development
+
+We used an agile process for developing this software. Features were laid out after the project was given the green-light, and we then met together to turn those features into functional and non-functional requirements. In the design phase, we laid out a UML diagram of how those features would interact. Then it was a matter of implementing the UML. We divided the parts evenly such that we could work in parallel for most of the project.
+
+An interesting part of the development cycle was in the **Latex parser**, where we decided to reuse as much code as possible, and implement it as a **special Python program delivered to the `exec` routine**. This `exec` routine we developed is to execute arbitrary Python code. For this reason, we can actually leverage it to **implement many other commands**. This in turn allows us to re-use the most amount of code possible.
+
+# Testing
+
+We tested our `exec` and `latex` routines on various test programs. We also tested malicious programs that leverage `os` and telemetry to circumvent the sandbox. This allowed us to come up with a list of packages to forbid in the sandbox. Which are default in this repository. This program has been vetted on both Linux and MacOS. 
+
+# Deployment
+
+The deployment for this app is incredibly flexible. We propose that the optimal way to deploy it would be using a **Docker instance load-balanced with Kubernetes**, to make it truely P2P. However, it's easy for anyone to run a node, or even use our code to register their own bot. However, it will run just fine on a free-tier Heroku or AWS VM.
+
+There are **no extra steps for deployment**. Simply set up your Python environment, run with`python discord_bot.py`, and ensure the machine or VM has access to the internet. 
+
 # Setup
 
 ## Discord
