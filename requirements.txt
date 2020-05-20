@@ -3,4 +3,6 @@ pillow
 matplotlib
 requests
 python-dotenv
+numpy
+pandas
 pymongo[srv]
