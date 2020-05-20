@@ -91,6 +91,9 @@ Now, we will set up the Python environment which will be available to the `!exec
 2. Create the virtual environment: `virtualenv venv --python=$(which python3)`
 3. Activate the `venv` and install the packages: `source venv/bin/activate && pip install -r requirements.txt`
 
+The Code Snippet saving functionality works over MongoDB. To use this functionality on your own, you will
+need to have a MongoDB database running, and have its connection URL ready.
+
 **Discord**
 
 For Discord, you will need your own **bot key** to run your own instance. Make a new application in Discord's
@@ -103,6 +106,7 @@ Using the token you obtained, run ResearchRealms using the following script:
     #!/bin/bash
     
     export TOKEN=<your bot token>
+    export MONGO_CONNECTION_STRING=<your mongodb connection string>
     
     source venv/bin/activate
     python discord_bot.py
